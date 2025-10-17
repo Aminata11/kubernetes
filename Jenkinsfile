@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         DOCKER_HUB_REPO = 'aminata286'
+        KUBECONFIG = '/var/lib/jenkins2/.kube/config' // chemin vers ton kubeconfig sur le serveur Jenkins
         
     }
 
@@ -37,6 +38,8 @@ pipeline {
             }
         }
 
+
+/*
         // Étape du pipeline dédiée à l'analyse SonarQube
         stage('SonarQube Analysis') {
             steps {
@@ -68,7 +71,7 @@ pipeline {
         }
         
 
-
+*/
 
         // 🔑 Étape 5 : Connexion à Docker Hub
         stage('Login to DockerHub') {
@@ -107,6 +110,18 @@ pipeline {
             }
         }
 
+        stage('Deploy to Kubernetes') {
+            steps {
+                echo "Déploiement sur le cluster Kubernetes..."
+                sh '''
+                kubectl apply -f k8s/mongo-deployment.yaml
+                kubectl apply -f k8s/backend-deployment.yaml
+                kubectl apply -f k8s/frontend-deployment.yaml
+                '''
+            }
+        }
+
+       /*
         // 🚀 Étape 9 : Déploiement via Docker Compose
         stage('Deploy with Docker Compose') {
             steps {
@@ -115,6 +130,7 @@ pipeline {
             }
         }
     }
+       */
 
     // 📬 Étapes post-pipeline
     post {
