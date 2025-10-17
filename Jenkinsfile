@@ -4,7 +4,6 @@ pipeline {
     environment {
         DOCKER_HUB_REPO = 'aminata286'
         KUBECONFIG = '/var/lib/jenkins2/.kube/config' // chemin vers ton kubeconfig sur le serveur Jenkins
-        
     }
 
     triggers {
@@ -38,42 +37,30 @@ pipeline {
             }
         }
 
-
-/*
-        // Étape du pipeline dédiée à l'analyse SonarQube
+        /*
+        // 🔍 Étape 2 : Analyse SonarQube (désactivée)
         stage('SonarQube Analysis') {
             steps {
-                // Active l'environnement SonarQube configuré dans Jenkins
-                // "SonarQubeServer" est le nom que tu as défini dans "Manage Jenkins > Configure System"
                 withSonarQubeEnv('SonarQubeServer') { 
                     script {
-                        // Récupère le chemin du SonarQubeScanner installé via "Global Tool Configuration"
-                        def scannerHome = tool 'SonarQubeScanner' 
-                        
-                        // Exécute la commande sonar-scanner pour analyser le code
-                        // Le scanner envoie les résultats au serveur SonarQube
+                        def scannerHome = tool 'SonarQubeScanner'
                         sh "${scannerHome}/bin/sonar-scanner"
                     }
                 }
             }
         }
 
-        // Étape du pipeline qui vérifie le Quality Gate
+        // ✅ Étape 3 : Vérification du Quality Gate (désactivée)
         stage('Quality Gate') {
             steps {
-                // Définit un délai maximum de 3 minutes pour attendre la réponse de SonarQube
                 timeout(time: 2, unit: 'MINUTES') {
-                    // Attend le résultat du Quality Gate (succès ou échec)
-                    // Si le Quality Gate échoue, le pipeline est automatiquement interrompu (abortPipeline: true)
                     waitForQualityGate abortPipeline: true
                 }
             }
         }
-        
+        */
 
-*/
-
-        // 🔑 Étape 5 : Connexion à Docker Hub
+        // 🔑 Étape 4 : Connexion à Docker Hub
         stage('Login to DockerHub') {
             steps {
                 echo 'Connexion à Docker Hub...'
@@ -83,7 +70,7 @@ pipeline {
             }
         }
 
-        // 🛠️ Étape 6 : Construction de l’image backend
+        // 🛠️ Étape 5 : Construction de l’image backend
         stage('Build Backend Image') {
             steps {
                 echo 'Construction de l’image backend...'
@@ -91,7 +78,7 @@ pipeline {
             }
         }
 
-        // 🛠️ Étape 7 : Construction de l’image frontend
+        // 🛠️ Étape 6 : Construction de l’image frontend
         stage('Build Frontend Image') {
             steps {
                 echo 'Construction de l’image frontend...'
@@ -99,7 +86,7 @@ pipeline {
             }
         }
 
-        // 📤 Étape 8 : Push des images vers Docker Hub
+        // 📤 Étape 7 : Push des images vers Docker Hub
         stage('Push Images') {
             steps {
                 echo 'Envoi des images vers Docker Hub...'
@@ -110,28 +97,28 @@ pipeline {
             }
         }
 
+        // 🚀 Étape 8 : Déploiement sur Kubernetes
         stage('Deploy to Kubernetes') {
             steps {
                 echo "Déploiement sur le cluster Kubernetes..."
                 sh '''
-                kubectl apply -f k8s/mongo-deployment.yaml
-                kubectl apply -f k8s/backend-deployment.yaml
-                kubectl apply -f k8s/frontend-deployment.yaml
+                    kubectl apply -f k8s/mongo-deployment.yaml
+                    kubectl apply -f k8s/backend-deployment.yaml
+                    kubectl apply -f k8s/frontend-deployment.yaml
                 '''
             }
         }
 
-       /*
-        // 🚀 Étape 9 : Déploiement via Docker Compose
+        /*
+        // 🐳 Étape 9 : Déploiement via Docker Compose (désactivée)
         stage('Deploy with Docker Compose') {
             steps {
                 echo 'Déploiement via Docker Compose...'
                 sh 'docker compose up -d'
             }
         }
-          */
+        */
     }
-     
 
     // 📬 Étapes post-pipeline
     post {
