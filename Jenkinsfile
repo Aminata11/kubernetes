@@ -129,8 +129,9 @@ pipeline {
                 sh 'docker compose up -d'
             }
         }
+          */
     }
-       */
+     
 
     // 📬 Étapes post-pipeline
     post {
