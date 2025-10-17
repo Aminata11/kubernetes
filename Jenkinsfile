@@ -31,6 +31,7 @@ pipeline {
                     branches: [[name: '*/main']],
                     extensions: [],
                     userRemoteConfigs: [[
+                        credentialsId: 'token-kubernetes',
                         url: 'https://github.com/Aminata11/kubernetes.git'
                     ]]
                 )
