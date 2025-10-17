@@ -26,39 +26,11 @@ pipeline {
         // 🧩 Étape 1 : Récupération du code source
         stage('Checkout') {
             steps {
-                checkout scmGit(
-                    branches: [[name: '*/main']],
-                    extensions: [],
-                    userRemoteConfigs: [[
-                        credentialsId: 'token-kubernetes',
-                        url: 'https://github.com/Aminata11/kubernetes.git'
-                    ]]
-                )
+                git branch: 'main', url: 'https://github.com/Aminata11/kubernetes.git'
             }
         }
 
-        /*
-        // 🔍 Étape 2 : Analyse SonarQube (désactivée)
-        stage('SonarQube Analysis') {
-            steps {
-                withSonarQubeEnv('SonarQubeServer') { 
-                    script {
-                        def scannerHome = tool 'SonarQubeScanner'
-                        sh "${scannerHome}/bin/sonar-scanner"
-                    }
-                }
-            }
-        }
-
-        // ✅ Étape 3 : Vérification du Quality Gate (désactivée)
-        stage('Quality Gate') {
-            steps {
-                timeout(time: 2, unit: 'MINUTES') {
-                    waitForQualityGate abortPipeline: true
-                }
-            }
-        }
-        */
+        
 
         // 🔑 Étape 4 : Connexion à Docker Hub
         stage('Login to DockerHub') {
@@ -108,16 +80,6 @@ pipeline {
                 '''
             }
         }
-
-        /*
-        // 🐳 Étape 9 : Déploiement via Docker Compose (désactivée)
-        stage('Deploy with Docker Compose') {
-            steps {
-                echo 'Déploiement via Docker Compose...'
-                sh 'docker compose up -d'
-            }
-        }
-        */
     }
 
     // 📬 Étapes post-pipeline
