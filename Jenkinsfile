@@ -70,11 +70,12 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 echo "Déploiement sur le cluster Kubernetes..."
-                sh '''
-                    kubectl apply -f k8s/mongo-deployment.yaml
-                    kubectl apply -f k8s/backend-deployment.yaml
-                    kubectl apply -f k8s/frontend-deployment.yaml
-                '''
+               sh '''
+                  kubectl apply -f K8s/mongo-deployment.yaml
+                  kubectl apply -f K8s/backend-deployment.yaml
+                  kubectl apply -f K8s/frontend-deployment.yaml
+                  '''
+
             }
         }
     }
