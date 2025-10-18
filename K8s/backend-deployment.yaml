@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: backend
-        image: marieme0516/express-backend:latest
+        image: aminata286/backend:latest
         ports:
         - containerPort: 5000
         env:
@@ -31,4 +31,5 @@ spec:
   ports:
   - port: 5000
     targetPort: 5000
-  type: ClusterIP
+    nodePort: 30080
+  type: NodePort
