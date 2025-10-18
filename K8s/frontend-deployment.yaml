@@ -16,7 +16,7 @@ spec:
       - name: frontend
         image: aminata286/frontend:latest
         ports:
-        - containerPort: 80
+        - containerPort: 5173
         env:
         - name: REACT_APP_API_URL
           value: http://localhost:30080
@@ -29,7 +29,7 @@ spec:
   selector:
     app: frontend
   ports:
-  - port: 80
-    targetPort: 80
-    nodePort: 30300
+  - port: 5173
+    targetPort: 5173
+    nodePort: 30289
   type: NodePort
