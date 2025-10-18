@@ -6,15 +6,13 @@ pipeline {
         KUBECONFIG = '/var/lib/jenkins2/.kube/config' // chemin vers ton kubeconfig sur le serveur Jenkins
     }
 
-   triggers {
-        // Pour que le pipeline démarre quand le webhook est reçu
+  triggers {
         GenericTrigger(
             genericVariables: [
                 [key: 'ref', value: '$.ref'],
-                [key: 'pusher_name', value: '$.pusher.name'],
-                [key: 'commit_message', value: '$.head_commit.message']
+                [key: 'before', value: '$.before']
             ],
-            causeString: 'Push par $pusher_name sur $ref: "$commit_message"',
+            causeString: 'Triggered on $ref',
             token: 'mysecret',
             printContributedVariables: true,
             printPostContent: true
