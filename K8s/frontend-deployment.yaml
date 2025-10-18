@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: marieme0516/react-frontend:latest
+        image: aminata286/frontend:latest
         ports:
         - containerPort: 5173
         env:
