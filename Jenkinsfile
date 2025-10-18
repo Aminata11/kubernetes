@@ -6,8 +6,8 @@ pipeline {
         KUBECONFIG = '/var/lib/jenkins2/.kube/config' // chemin vers ton kubeconfig sur le serveur Jenkins
     }
 
-    triggers {
-        // Déclenchement automatique via webhook GitHub
+   triggers {
+        // Pour que le pipeline démarre quand le webhook est reçu
         GenericTrigger(
             genericVariables: [
                 [key: 'ref', value: '$.ref'],
@@ -20,7 +20,6 @@ pipeline {
             printPostContent: true
         )
     }
-
     stages {
 
         // 🧩 Étape 1 : Récupération du code source
