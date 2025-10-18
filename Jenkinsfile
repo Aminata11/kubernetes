@@ -67,18 +67,19 @@ pipeline {
         }
 
         // 🚀 Étape 8 : Déploiement sur Kubernetes
-        stage('Deploy to Kubernetes') {
-            steps {
-                echo "Déploiement sur le cluster Kubernetes..."
-               sh '''
-                  kubectl apply -f K8s/mongo-deployment.yaml
-                  kubectl apply -f K8s/backend-deployment.yaml
-                  kubectl apply -f K8s/frontend-deployment.yaml
-                  '''
-
-            }
+       stage('Deploy to Kubernetes') {
+    steps {
+        echo "Déploiement sur le cluster Kubernetes..."
+        withEnv(["KUBECONFIG=${env.KUBECONFIG}"]) {
+            sh '''
+                kubectl get nodes
+                kubectl apply -f K8s/mongo-deployment.yaml
+                kubectl apply -f K8s/backend-deployment.yaml
+                kubectl apply -f K8s/frontend-deployment.yaml
+            '''
         }
     }
+}
 
     // 📬 Étapes post-pipeline
     post {
