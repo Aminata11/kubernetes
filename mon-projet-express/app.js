@@ -19,7 +19,7 @@ app.use(express.json());
 
 // Configuration CORS COMPLÈTE
 app.use(cors({
-  origin: ['http://localhost:30289', 'http://192.168.65.3:30289', 'http://kubernetes.docker.internal:30289', 'http://localhost:5173', 'http://127.0.0.1:30289'],
+  origin: ['http://localhost:30300', 'http://192.168.65.3:30300', 'http://kubernetes.docker.internal:30300', 'http://localhost:5173', 'http://127.0.0.1:30300'],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'x-delete-code']
