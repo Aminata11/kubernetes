@@ -80,6 +80,7 @@ pipeline {
         }
     }
 }
+        }
 
     // 📬 Étapes post-pipeline
     post {
